@@ -1,0 +1,358 @@
+\section*{Methodology}
+
+This study adopts a unified predictive--explanatory architecture grounded in falsifiability principles to benchmark credit-risk models while explicitly evaluating the reliability of their explanations. The framework integrates a calibrated predictive pipeline across multiple algorithmic families with a dual-selector feature stabilisation layer and a constrained generative explanation module. Critically, the methodology operationalizes falsifiability by embedding reliability diagnostics as quantifiable rejection conditions: explanations are suppressed when signal-to-noise discrimination indicates weak attribution evidence, and generated narratives are accompanied by explicit uncertainty qualifications. This ensures that predictive performance, attribution stability, and explanatory uncertainty are assessed within a single coherent workflow oriented toward empirical validation rather than narrative confidence.
+
+\medskip
+\noindent\textbf{Data and Preprocessing}
+The experiments utilise the German Credit dataset from the UCI Machine Learning Repository \parencite{uci_german_credit}, a widely used benchmark in credit-risk research comprising 1,000 observations (700 non-default and 300 default cases) and 20 attributes \parencite{Baesens2003_benchmarking}. This dataset is chosen as a controlled benchmark precisely because of its moderate size and complexity: large enough to support ensemble learning yet small enough for thorough reliability assessment without computational barriers to exhaustive cross-validation and sanity checking.
+
+To ensure robust model estimation and prevent confounding of predictive and explanatory reliability, the data undergo a standardised preprocessing sequence grounded in a principle of minimal assumptions: attributes with more than 90\% missing values are removed (eliminating spurious correlations from sparse data), while remaining numerical and categorical missing values are imputed using median and mode strategies, respectively. Categorical variables are transformed using one-hot encoding, and numerical features are standardised to zero mean and unit variance. This conservative preprocessing preserves data structure without introducing artificial associations that could confound downstream SHAP analysis.
+
+Class imbalance is addressed using the Synthetic Minority Over-sampling Technique (SMOTE), applied strictly within the training folds of stratified cross-validation. This placement is critical: applying SMOTE before splitting would contaminate test-set evaluations with synthetic data, undermining the empirical validation of both predictive performance and explanation reliability. By applying SMOTE only to training folds, we ensure that performance estimates and reliability diagnostics reflect genuine generalisation rather than artefacts of resampling \parencite{Chawla2002_smote, WangYu2025_twostage}.
+
+\medskip
+\noindent\textbf{Predictive Modelling Framework}
+The unit of analysis is the \emph{model family}, interpreted as a functional constructor that defines a class of predictive algorithms sharing a common architectural principle. Four primary model families are evaluated: Linear Models, Boosting, Bagging, and Instance-Based Learners. Hyperparameter choices (e.g., ensemble size, learning rate, regularisation structure, distance weighting) represent implementation variants of the same constructor and are not treated as independent hypotheses, but rather as necessary operational specifications that instantiate the family's functional definition.
+
+To establish a comprehensive baseline that adequately exercises each family's representational capacity, 75 calibrated model configurations are systematically evaluated across these families, with the configuration space summarised in Table~\ref{tab:classification_models}. This sampling strategy ensures that each model family is assessed fairly by exploring its operationally relevant hyperparameter ranges. All models are trained within a stratified cross-validation framework and calibrated using \texttt{CalibratedClassifierCV} to ensure that predicted scores correspond to well-formed probability estimates, a prerequisite for meaningful risk ranking and expected-loss interpretation.
+
+%**********************Table: Classification Models***********************
+\begin{table}[ht]
+\centering
+\caption{Model families as functional constructors and their implementation variant dimensions. Hyperparameters specify operational instantiations of each family's architectural principle rather than independent competing hypotheses.}
+\label{tab:classification_models}
+\begin{tabularx}{\textwidth}{p{2.5cm} X r}
+\toprule
+\textbf{Model Family} & \textbf{Constructor Implementation Dimensions (hyperparameter variants)} & \textbf{Configurations} \\
+\midrule
+Linear & Solver and regularisation structure in logistic regression (lbfgs, saga, newton-cg; L1, L2, ElasticNet) & 6 \\
+\midrule
+Boosting & Ensemble size and learning rate for decision-stump AdaBoost, plus ensemble size for stochastic gradient boosting & 28 \\
+\midrule
+Bagging & Ensemble size for bagged trees and neural networks; ensemble size and feature subsampling for random forests & 36 \\
+\midrule
+Instance-Based & Neighbourhood size and distance weighting in $k$-NN, with one cross-validated tuned model & 5 \\
+\midrule
+\textbf{Total Configurations} & \textbf{Combined instantiations across all constructors} & \textbf{75} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\medskip
+\noindent\textbf{Unit of Analysis: Model Families as Functional Constructors}
+A critical conceptual distinction underlies the experimental design and the falsifiability framework: the unit of analysis is \emph{not} the individual trained model with specific hyperparameter values, but the \emph{model family itself}, understood as a functional constructor that encodes an algorithmic principle. This distinction matters for reliability assessment. Hyperparameter choices (ensemble size, learning rate, regularisation magnitude) do not constitute independent competing hypotheses; instead, they represent operational implementation variants necessary to instantiate the constructor's functional definition. For example, varying ensemble size in a Bagging constructor does not generate a distinct hypothesis but rather explores how the bagging principle scales across different operational regimes. Similarly, varying regularisation in logistic regression does not test whether regularisation is correct—it tests how much regularisation best instantiates the linear-classification principle for this particular dataset.
+
+This interpretation ensures that comparative assessment is conducted at the appropriate level of abstraction: families are compared as distinct algorithmic approaches, while within-family variation documents the family's effective operating envelope and operational constraints. The selection of best instantiation within each family identifies the most effective realisation of that family's core architectural principle. Crucially, this design prevents confusing poor hyperparameter choices with fundamental algorithmic failure: when an explanation is flagged as unreliable, we ask whether the reliability problem is intrinsic to the family's principle or contingent on suboptimal instantiation.
+
+\medskip
+\noindent\textbf{Unified Predictive and Explanatory Architecture}
+The framework is organised into three epistemically distinct layers that define what tasks are permissible, how information flows, and what constraints apply. These layers establish \emph{architectural principles} that any valid instantiation must respect: feature stabilisation must precede model training, model selection must be comparative across families, and explanation generation must be constrained by reliability diagnostics. This abstract architecture, illustrated in Figure~\ref{fig:architecture}, is independent of implementation details and does not itself specify execution order, selection thresholds, or failure modes.
+
+\medskip
+\noindent\textbf{Operational Workflow and Instantiation}
+The architecture is instantiated through a concrete operational procedure that specifies the \emph{exact sequencing, selection criteria, and failure conditions} under which a valid model and explanation are produced. This procedure is summarised in Algorithm~\ref{algo:full_pipeline}. Unlike the architecture, the workflow is falsifiable: it specifies quantitative selection criteria (AUC maximisation), computational order (feature stabilisation before model training), and explicit rejection conditions (explanation suppression when Sanity Ratio indicates weak signal). The algorithm is auditable—a reader can verify whether an implementation adheres to it by inspecting computational logs and decision records.
+
+%*********************Algorithm: Operational Workflow*********************
+\begin{algorithm}[H]
+\caption{Operational Instantiation: Unified Predictive and Explanatory Workflow}
+\label{algo:full_pipeline}
+
+\KwIn{Dataset $D$, Model Registry $\mathcal{M}$, Configuration Set $\mathcal{C}$}
+\KwOut{Benchmark Model $B^*$, Explanations $E$, Reliability Diagnostics $D_{rel}$}
+
+\textbf{Phase 1: Feature Screening (Dual-Selector)}\\
+Train Random Forest and L1-logistic regression; obtain importance scores $Imp_{RF}$ and $Imp_{L1}$.\\
+Compute composite score: $I_c = \frac{1}{2}(\mathrm{norm}(Imp_{RF}) + \mathrm{norm}(Imp_{L1}))$.\\
+Rank features by $I_c$; apply domain-based exclusion rationale; select screened feature set.\\
+
+\textbf{Phase 2: Model Training and Selection}\\
+\For{each model family $F \in \mathcal{M}$}{
+  Perform stratified split; apply SMOTE; train calibrated instantiations; evaluate AUC.
+}
+Define benchmark: $B^* = \arg\max_{B_F}(\mathrm{AUC})$.\\
+
+\textbf{Phase 3: Explainability and Reliability}\\
+Compute SHAP values (global and local) for $B^*$.\\
+Evaluate stability via reliability diagnostics; compute Sanity Ratio $\rho$.\\
+\If{$\rho < 0.95$}{
+  Generate explanation with uncertainty caveats\;
+}
+\Else{
+  Generate high-confidence explanation\;
+}
+
+\textbf{Phase 4: Constrained Generative Explanation}\\
+\If{Reliability Diagnostics indicate signal $\ge$ noise}{
+  Extract top-$k$ SHAP features; construct structured prompt (feature names, values, SHAP contributions, prediction, label)\;
+  Invoke LLM to generate two-segment explanation with constraint: ground narrative in validated SHAP evidence\;
+}
+\Else{
+  Flag explanation as unreliable; suppress confident claims\;
+}
+\Return{$B^*, E, D_{rel}$}
+
+\end{algorithm}
+
+\medskip
+\noindent\textbf{Generative AI Explanation Layer}
+
+To enhance communicability without compromising epistemic rigor, we employ a constrained generative AI module that translates validated SHAP evidence into natural-language explanations. Unlike unconstrained narrative-generation systems, this module operates strictly within the boundaries imposed by reliability diagnostics: it may summarise evidence and articulate the reasoning implied by validated attributions, but it is not permitted to introduce causal claims, speculative associations, or narrative elements that lack empirical support. Explanation generation is suppressed entirely when reliability diagnostics indicate that attribution signals are weak relative to noise, ensuring that narrative confidence never exceeds evidential support.
+
+The module's configuration, inputs, processing logic, and constraints are summarised in Table~\ref{tab:llm_explanation_layer}. The module receives ranked SHAP outputs, feature names, feature values, and true labels as inputs, identifying the top contributing features ordered by absolute SHAP magnitude. The LLM is constrained to operate as a machine-learning analyst, producing two short paragraphs: one explaining why the model made the prediction and another comparing the prediction to the actual outcome. This structured design ensures that generated explanations remain grounded in quantitative attribution evidence while supporting human interpretability.
+
+\begin{table}[H]
+\centering
+\caption{LLM-based SHAP explanation module: configuration and constraints.}
+\label{tab:llm_explanation_layer}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{
+  >{\raggedright\arraybackslash}p{3.0cm}
+  >{\raggedright\arraybackslash}p{10.8cm}
+}
+\toprule
+\textbf{Component} & \textbf{Description} \\
+\midrule
+Purpose &
+Generates natural-language explanations for SHAP outputs constrained by reliability diagnostics \\
+\midrule
+Input &
+SHAP values, feature names, feature values, true label, predicted probability \\
+\midrule
+Processing &
+Sorts features by absolute SHAP magnitude; selects top validated features for narrative \\
+\midrule
+Prompt Structure &
+System prompt constrains LLM role as ML analyst; user prompt provides numerical context (SHAP values, predictions); required output: two short paragraphs (1) Why model predicted this outcome, (2) Prediction alignment with actual label \\
+\midrule
+Output &
+Two paragraphs summarising SHAP-driven reasoning and prediction correctness \\
+\midrule
+Critical Constraint &
+Narrative must remain grounded in validated SHAP evidence; no unsupported causal claims; explanation suppressed if signal \textless\, noise \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\medskip
+\noindent\textbf{Architectural Principles: Conceptual Foundation}
+The three-layer architecture below is a \emph{non-procedural} representation of task decomposition and information dependencies. It specifies what transformations are logically necessary and how information must flow between stages, but does not impose ordering constraints, quantitative selection criteria, or conditional rejection logic. Any valid instantiation must respect the architectural constraints (e.g., feature stabilisation logically precedes model training), but the specific operational realisation—including hyperparameter selection, decision thresholds, and failure handling—is determined by the algorithm.
+
+%**********************Figure: Conceptual Architecture***********************
+\begin{figure}[H]
+    \centering
+
+    \resizebox{\textwidth}{!}{%
+    \begin{tikzpicture}[
+      font=\sffamily,
+      >=Stealth,
+      component/.style={
+        rectangle,
+        rounded corners=3pt,
+        draw=black!60,
+        fill=white,
+        thick,
+        minimum height=1.2cm,
+        minimum width=3.4cm,
+        align=center,
+        drop shadow={opacity=0.3,shadow xshift=2pt,shadow yshift=-2pt},
+        font=\small\bfseries
+      },
+      logic/.style={
+        draw=none,
+        font=\footnotesize\itshape\color{black!70}
+      },
+      layer/.style={
+        rectangle,
+        rounded corners=10pt,
+        draw,
+        thick,
+        inner sep=12pt
+      },
+      layerlabel/.style={
+        font=\bfseries\large,
+        anchor=north,
+        yshift=-10pt
+      },
+      flow/.style={
+        ->,
+        ultra thick,
+        black!70,
+        rounded corners=8pt
+      },
+      arrowlabel/.style={
+        fill=white,
+        draw=gray!50,
+        rounded corners,
+        font=\scriptsize\bfseries,
+        inner sep=2pt
+      }
+    ]
+
+    % Coordinates
+    \coordinate (col1) at (0,0);
+    \coordinate (route12) at (5.0,0);
+    \coordinate (col2) at (7.8,0);
+    \coordinate (route23) at (12.8,0);
+    \coordinate (col3) at (15.6,0);
+
+    % Layer 1: Stabilization
+    \node[component, fill=layer1bg] (rf) at ($(col1)+(0,2.8)$)
+      {Random Forest\\ \normalfont (Impurity)};
+    \node[component, fill=layer1bg, below=1.5cm of rf] (l1)
+      {L1 Logistic\\ \normalfont (Coefficients)};
+    \node[component, fill=layer1bg, below=1.5cm of l1] (composite)
+      {Composite Stabilizer ($I_c$)\\
+       \footnotesize $\tfrac12(\text{norm}(Imp_{RF})+\text{norm}(Imp_{L1}))$};
+
+    \node[logic] at ($(rf.east)+(6mm,0)$) {$Imp_{RF}$};
+    \node[logic] at ($(l1.east)+(6mm,0)$) {$Imp_{L1}$};
+
+    \draw[flow,gray] (rf) -- (l1);
+    \draw[flow,gray] (l1) -- (composite);
+
+    \coordinate (layer1title) at ($(rf.north)+(0,10mm)$);
+    \begin{scope}[on background layer]
+      \node[layer,draw=layer1border,fill=layer1bg!20,
+            fit=(layer1title)(rf)(l1)(composite)] (layer1) {};
+      \node[layerlabel,text=layer1border] at (layer1.north)
+        {Layer 1: Stabilization};
+    \end{scope}
+
+    % Layer 2: Evolution
+    \node[component, fill=layer2bg] (training) at ($(col2)+(0,2.8)$)
+      {Stratified Training\\ \normalfont + SMOTE};
+    \node[component, fill=layer2bg, below=1.4cm of training] (calibration)
+      {Calibration\\ \normalfont (Cross-Validation)};
+    \node[component, fill=layer2bg, below=1.4cm of calibration] (selection)
+      {Evolutionary Selection\\ \footnotesize $\arg\max(\mathrm{AUC})$};
+
+    \draw[flow,gray] (training) -- (calibration);
+    \draw[flow,gray] (calibration) -- (selection);
+
+    \coordinate (layer2title) at ($(training.north)+(0,10mm)$);
+    \begin{scope}[on background layer]
+      \node[layer,draw=layer2border,fill=layer2bg!20,
+            fit=(layer2title)(training)(calibration)(selection)] (layer2) {};
+      \node[layerlabel,text=layer2border] at (layer2.north)
+        {Layer 2: Evolution};
+    \end{scope}
+
+    % Layer 3: Validation
+    \node[component, fill=layer3bg] (shap) at ($(col3)+(0,2.8)$)
+      {SHAP Attribution\\ \normalfont (Global \& Local)};
+    \node[component, fill=layer3bg, below=1.4cm of shap] (diagnostics)
+      {Reliability Diagnostics\\ \normalfont (Sanity Checks)};
+    \node[component, fill=layer3bg, below=1.4cm of diagnostics] (generator)
+      {Constrained Generator\\ \footnotesize Signal $\ge$ Noise ?};
+
+    \draw[flow,gray] (shap) -- (diagnostics);
+    \draw[flow,gray] (diagnostics) -- (generator);
+
+    \coordinate (layer3title) at ($(shap.north)+(0,10mm)$);
+    \begin{scope}[on background layer]
+      \node[layer,draw=layer3border,fill=layer3bg!20,
+            fit=(layer3title)(shap)(diagnostics)(generator)] (layer3) {};
+      \node[layerlabel,text=layer3border] at (layer3.north)
+        {Layer 3: Validation};
+    \end{scope}
+
+    % Routing
+    \coordinate (port1) at ($(composite.east)+(0.1,0)$);
+    \coordinate (port2) at ($(training.west)+(-0.1,0)$);
+
+    \draw[flow] (port1) -- (route12 |- port1) -- (route12 |- port2) -- (port2);
+    \node[arrowlabel] at ($(route12 |- port1)!0.5!(route12 |- port2)$)
+      {Stabilized Features};
+
+    \coordinate (port3) at ($(selection.east)+(0.1,0)$);
+    \coordinate (port4) at ($(shap.west)+(-0.1,0)$);
+
+    \draw[flow] (port3) -- (route23 |- port3) -- (route23 |- port4) -- (port4);
+    \node[arrowlabel] at ($(route23 |- port3)!0.5!(route23 |- port4)$)
+      {Benchmark ($B^*$)};
+
+    % Inputs/Outputs
+    \node[left=0.8cm of layer1,align=right,font=\bfseries\large] (inputs)
+      {Raw Inputs\\ \small (Dataset $D$,\\ Config $\mathcal C$)};
+    \draw[flow] (inputs) -- (layer1.west);
+
+    \node[right=0.8cm of layer3,align=left,font=\bfseries\large] (outputs)
+      {Output\\ \small (Explanation $E$,\\ Diagnostics $D_{rel}$)};
+    \draw[flow] (layer3.east) -- (outputs);
+
+    \end{tikzpicture}
+    }
+
+    \caption{Conceptual Architecture: Task Decomposition and Information Constraints. This figure depicts the three foundational layers that define permissible transformations and information dependencies, independent of execution order or selection criteria. Layer 1 (Stabilization) establishes that feature importance must integrate multiple signal sources before model training. Layer 2 (Evolution) establishes that model selection occurs within a constrained family-based comparative framework. Layer 3 (Validation) establishes that explanations remain subject to signal-quality constraints and may be suppressed if diagnostics indicate unreliable attribution. The figure is non-procedural: it specifies \emph{what tasks must occur and how information is constrained}, not the sequence, decision thresholds, or failure modes that govern their instantiation. The concrete instantiation is specified in Algorithm~\ref{algo:full_pipeline}.}
+    \label{fig:architecture}
+\end{figure}
+
+\FloatBarrier
+
+\medskip
+\noindent\textbf{Canonical Model Instantiation and Selection Rationale}
+Rather than evaluate all hyperparameter configurations exhaustively, a single canonical instantiation is selected per family based on theoretical and structural principles. This approach ensures that comparative assessment reflects genuine algorithmic differences rather than configuration-specific tuning effects. The following canonical instantiations represent each family's core architectural principle.
+
+\emph{Linear Models} are instantiated through two complementary variants. Unregularised logistic regression with the newton-cg solver provides the classical statistical baseline, eschewing explicit complexity penalties to preserve the foundational logistic model. Regularised logistic regression with L1-penalty via liblinear represents the modern variant that intrinsically enforces sparsity, automatically excluding irrelevant features through the penalty mechanism.
+
+\emph{Boosting} is represented by AdaBoost with decision stumps (ensemble size 30). This instantiation embodies the original boosting principle grounded in iterative error correction. The shallow base learner (one-level decision tree) ensures theoretical clarity and computational transparency, avoiding the confounding effects of deeper trees or more complex base learners.
+
+\emph{Bagging (CART)} employs bagged decision trees with ensemble size 500, instantiating classical bootstrap aggregation without feature subsampling. This configuration establishes the baseline ensemble principle, serving as a reference point for understanding the effects of feature subsampling introduced in Random Forest variants.
+
+\emph{Bagging (Neural Network)} extends the bagging principle to flexible nonlinear function approximators. Bagged neural networks with ensemble size 100 represent the intersection of modern deep-learning architectures with classical ensemble methodology, demonstrating how bagging performs when applied to highly flexible learners rather than tree-based models.
+
+\emph{Random Forest} instantiation employs $\sqrt{p}$ feature subsampling (ensemble size 500), representing a specialised variant that introduces controlled feature randomness. This configuration represents a key theoretical contribution to ensemble learning, trading reduced per-tree correlation for improvements in generalisation through feature decorrelation.
+
+\emph{Stochastic Gradient Boosting} (ensemble size 50, learning rate 0.1) instantiates the gradient-boosting principle with conservative operational parameters. The modest ensemble scale and conservative learning rate reflect a balanced approach that prioritises approximation quality and generalisation stability over aggressive boosting.
+
+\emph{Instance-Based} methods are represented by k-NN with $k=11$ and uniform distance weighting. This neighbourhood size balances local responsiveness (small $k$ overfit to individual observations) against global smoothing (large $k$ ignore local structure), establishing the non-parametric neighbourhood principle at an intermediate operational point.
+
+Performance metrics for these canonical representatives are reported in Table~\ref{tab:benchmark_german_credit_record_csv}.
+
+\medskip
+\noindent\textbf{Explainability and Evaluation Architecture: Falsifiability in Practice}
+The framework extends beyond predictive benchmarking by embedding explanation reliability assessment directly into the evaluation pipeline as a testable, rejectable component. Rather than treating feature attributions as self-validating artefacts, explanations are interpreted as empirical claims whose credibility depends on the empirically measured stability and strength of the underlying signal. This operationalizes falsifiability: explanations are not suppressed as failures but are explicitly subjected to signal-quality tests, with rejection conditions specified in advance (sanity ratio thresholds, noise discrimination criteria). Explanations that pass validation are accompanied by confidence metrics; those that fail validation are routed to the generative module with uncertainty caveats, creating a transparent audit trail of explanatory confidence.
+
+\medskip
+\noindent\textbf{Feature Attribution and Generative Explanation: Stabilizing Explanatory Evidence}
+To mitigate instability associated with single-method feature selection and prevent attribution uncertainty from being misattributed to true signal loss, a dual-selector mechanism is employed. By combining impurity-based Random Forest importance (which captures nonlinear interactions and heterogeneous effects) with coefficient-based L1-regularised logistic regression importance (which enforces sparse, interpretable linear structure), the framework preserves both interaction-aware and linear structural signals. This dual approach grounds subsequent SHAP analysis in stable feature foundations rather than in unstable single-estimator rankings. SHAP values are then computed on this stabilised feature set and passed to a generative module that translates quantitative attributions into human-readable narratives. Critically, the generative component is constrained by the reliability diagnostics: confident explanations are produced only when sanity-ratio and signal-to-noise tests pass, preventing the LLM from generating confident narratives when underlying attribution signals are weak.
+
+\medskip
+\noindent\textbf{Evaluation Metrics}
+
+Model evaluation in credit-risk modelling requires multidimensional assessment reflecting both regulatory requirements and practical decision-making demands. We employ a suite of complementary metrics that jointly capture discrimination, calibration, and cost-sensitive performance, as summarised in Table~\ref{tab:evaluation_metrics}.
+
+\begin{table}[H]
+\centering
+\caption{Evaluation metrics for model assessment and selection.}
+\label{tab:evaluation_metrics}
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{p{1.8cm}p{2.2cm}p{3.8cm}p{4.2cm}}
+\toprule
+\textbf{Metric} & \textbf{Category} & \textbf{Purpose} & \textbf{Formula} \\
+\midrule
+AUC & Discrimination & Rank-ordering ability; threshold-independent & $\displaystyle \int_0^1 \mathrm{TPR}(x)\, d(\mathrm{FPR}(x))$ \\
+KS & Discrimination & Maximum class separation & $\displaystyle \max_{t} |\mathrm{TPR}(t) - \mathrm{FPR}(t)|$ \\
+\midrule
+BS & Calibration & Probability calibration error & $\displaystyle \frac{1}{N} \sum_{i=1}^N (p_i - y_i)^2$ \\
+\midrule
+PCC & Classification & Overall accuracy & $\displaystyle \frac{\mathrm{TP} + \mathrm{TN}}{\mathrm{TP} + \mathrm{FP} + \mathrm{TN} + \mathrm{FN}}$ \\
+Recall & Classification & Sensitivity; detect defaults & $\displaystyle \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}}$ \\
+H & Utility & Cost-sensitive performance \parencite{Hand2009_hmeasure} & $\displaystyle 1 - \frac{\mathrm{EMC}}{\mathrm{EMC}_0}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\medskip
+\noindent\textbf{Primary Selection Criterion: Discrimination as Necessary but Not Sufficient}
+AUC serves as the primary model selection metric, chosen not for its optimality but for its falsifiability properties. AUC measures discriminatory power—the model's ability to rank-order observations by risk—independent of decision thresholds, providing a metric that is robust to class imbalance and threshold selection artifacts. This threshold-independence is critical for fair comparison across heterogeneous model families and enables reproducible selection logic.
+
+However, AUC alone does not characterize explanatory reliability. The Brier Score complements AUC by quantifying probability calibration quality, measuring whether predicted default probabilities align with empirical frequencies across the full probability spectrum. Calibration and discrimination are orthogonal properties: a model can discriminate perfectly (rank order) while assigning poorly calibrated probabilities, or vice versa. By tracking both, we create the conditions for falsifying the claim that "high AUC implies reliable explanations." If a model achieves high AUC but low Brier Score, we expect its feature attributions to exhibit anomalies under sanity checking.
+
+All metrics are computed within stratified cross-validation to ensure that performance estimates reflect genuine generalisation rather than training-set artifacts. Secondary metrics (KS, H-measure, Recall) provide diagnostic insight into separation stability, decision utility, and default-detection capability. The full metric suite creates a multi-dimensional performance space in which no single model dominates all dimensions, forcing practitioners to make trade-off choices and preventing false claims of universal optimality.
+
+\FloatBarrier

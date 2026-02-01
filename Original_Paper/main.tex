@@ -1,0 +1,151 @@
+\documentclass[12pt,a4paper]{article}
+
+% ==================================================
+% 1. Language and Fonts
+% ==================================================
+\usepackage[T1]{fontenc}
+\usepackage[british]{babel}
+\usepackage{csquotes}
+
+% Use standard LaTeX fonts (comment out fontspec if not using XeLaTeX/LuaLaTeX)
+% If you want to use fontspec, uncomment the lines below and ensure the font is installed
+% \usepackage{fontspec}
+% \setmainfont{Arial}  % or another installed font
+
+% ==================================================
+% 2. TikZ and PGFPlots (for figures)
+% ==================================================
+\usepackage{tikz}
+\usetikzlibrary{
+  shapes.geometric,
+  positioning,
+  fit,
+  backgrounds,
+  shadows,
+  arrows.meta,
+  calc
+}
+
+\usepackage{pgfplots}
+\pgfplotsset{
+  compat=1.18,
+  every axis/.append style={
+    cycle list name=black white
+  }
+}
+\usepgfplotslibrary{statistics}
+
+% Define colors for architecture diagram
+\definecolor{layer1bg}{RGB}{240,248,255}
+\definecolor{layer1border}{RGB}{70,130,180}
+\definecolor{layer2bg}{RGB}{255,250,240}
+\definecolor{layer2border}{RGB}{218,165,32}
+\definecolor{layer3bg}{RGB}{240,255,240}
+\definecolor{layer3border}{RGB}{60,179,113}
+
+% Define color for feature importance bar chart
+\definecolor{steelblue}{RGB}{70,130,180}
+
+% ==================================================
+% 3. Page Layout
+% ==================================================
+\usepackage[
+  a4paper,
+  margin=1.5cm
+]{geometry}
+
+\usepackage{setspace}
+\singlespacing
+
+% ==================================================
+% 4. Float Control
+% ==================================================
+\usepackage{placeins}
+\usepackage{float}
+
+% ==================================================
+% 5. Section Formatting (UNNUMBERED)
+% ==================================================
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{}{0em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{}{0em}{}
+
+% ==================================================
+% 6. Mathematics
+% ==================================================
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+% ==================================================
+% 6.1 Lists
+% ==================================================
+\usepackage{enumitem}
+
+% ==================================================
+% 7. Tables
+% ==================================================
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{threeparttable}
+\usepackage{adjustbox}
+
+% ==================================================
+% 8. Figures
+% ==================================================
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{rotating}
+
+% ==================================================
+% 9. Algorithms
+% ==================================================
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+
+% ==================================================
+% 10. Bibliography — APA Style
+% ==================================================
+\usepackage[
+  style=apa,
+  backend=biber,
+  uniquelist=false,
+  uniquename=false
+]{biblatex}
+\DeclareLanguageMapping{british}{british-apa}
+\addbibresource{references.bib}
+
+% ==================================================
+% 11. Hyperlinks
+% ==================================================
+\usepackage[colorlinks=false,pdfborder={0 0 0}]{hyperref}
+
+% ==================================================
+% Document Start
+% ==================================================
+\title{Beyond Attribution: A Falsifiability Framework for Reliable Credit Risk Explanations}
+\author{}        % Anonymous for blind review
+\date{}
+
+\begin{document}
+\maketitle
+
+% ==================================================
+% Main Content
+% ==================================================
+
+\input{sections/0_Abstract}
+\input{sections/1_Introduction}
+\input{sections/3_Literature_Review}
+\input{sections/3.2_Methodology}
+\input{sections/6_Results}
+\input{sections/7_Conslusion}
+
+% ==================================================
+% References
+% ==================================================
+\printbibliography
+
+\end{document}

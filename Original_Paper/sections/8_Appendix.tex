@@ -1,0 +1,253 @@
+\section*{Appendix}
+
+This appendix provides supplementary tables containing detailed results that support the main findings presented in the Results section.
+
+\subsection*{Supplementary Tables}
+
+\label{app:diagnostic_metrics}
+
+%**********************Diagnostic Metric Visualizations***********************
+\subsection*{Metric-Wise Diagnostic Plots}
+
+The following six-panel figure provides detailed diagnostic visualizations across complementary performance metrics. These univariate representations are relegated to the appendix as they do not expose structural relationships between performance dimensions; the two-dimensional frontier plot in the main text better reveals model-family trade-offs. This visualization is provided for completeness and auditability.
+
+\begin{figure}[H]
+    \centering
+    \setlength{\tabcolsep}{1pt}
+
+    % Data Table
+    \pgfplotstableread[row sep=\\,col sep=&]{
+        Model & AUC & BS & KS & H & Recall & PCC \\
+        lr & 0.7915 & 0.1840 & 0.5690 & 0.3222 & 0.8667 & 0.6200 \\
+        lr\_reg & 0.8005 & 0.1807 & 0.5643 & 0.3332 & 0.8667 & 0.6200 \\
+        ada & 0.7844 & 0.1758 & 0.4833 & 0.2889 & 0.8167 & 0.6550 \\
+        Bag-CART & 0.7436 & 0.1864 & 0.4119 & 0.2259 & 0.6333 & 0.6600 \\
+        BagNN & 0.8093 & 0.1770 & 0.5476 & 0.3719 & 0.8500 & 0.6400 \\
+        Boost-DT & 0.7914 & 0.1708 & 0.5119 & 0.2962 & 0.8000 & 0.7000 \\
+        RF & 0.7787 & 0.1747 & 0.4667 & 0.2542 & 0.5833 & 0.7300 \\
+        SGB & 0.7790 & 0.1762 & 0.4786 & 0.2730 & 0.7667 & 0.7050 \\
+        KNN & 0.7852 & 0.1882 & 0.4762 & 0.2441 & 0.9000 & 0.5700 \\
+    }\datatable
+
+    % Style for Line Charts
+    \pgfplotsset{
+        mylineplot/.style={
+            width=0.30\textwidth,
+            height=4.5cm,
+            symbolic x coords={lr, lr\_reg, ada, Bag-CART, BagNN, Boost-DT, RF, SGB, KNN},
+            xtick=data,
+            nodes near coords,
+            nodes near coords style={font=\tiny, yshift=5pt},
+            xticklabel style={rotate=45, anchor=east, font=\tiny},
+            ylabel style={font=\scriptsize},
+            title style={font=\scriptsize, align=center},
+            grid=major,
+            sharp plot,
+            every axis plot/.append style={thick, mark=*},
+        }
+    }
+
+    \begin{tabular}{ccc}
+        % --- ROW 1 ---
+        % (a) AUC
+        \begin{tikzpicture}
+            \begin{axis}[
+                mylineplot,
+                ylabel={AUC},
+                ymin=0.72, ymax=0.83,
+                title={(a) AUC (Discrimination)}
+            ]
+            \addplot[color=blue, mark=*, thick] table [x=Model, y=AUC] {\datatable};
+            \end{axis}
+        \end{tikzpicture}
+        &
+        % (b) KS
+        \begin{tikzpicture}
+            \begin{axis}[
+                mylineplot,
+                ylabel={KS},
+                ymin=0.38, ymax=0.60,
+                title={(b) KS Statistic}
+            ]
+            \addplot[color=teal, mark=square*, thick] table [x=Model, y=KS] {\datatable};
+            \end{axis}
+        \end{tikzpicture}
+        &
+        % (c) BS
+        \begin{tikzpicture}
+            \begin{axis}[
+                mylineplot,
+                ylabel={BS},
+                ymin=0.16, ymax=0.20,
+                title={(c) Brier Score (Calibration)}
+            ]
+            \addplot[color=red, mark=triangle*, thick] table [x=Model, y=BS] {\datatable};
+            \end{axis}
+        \end{tikzpicture}
+        \\[2em]
+
+        % --- ROW 2 ---
+        % (d) H-Measure
+        \begin{tikzpicture}
+            \begin{axis}[
+                mylineplot,
+                ylabel={H-measure},
+                ymin=0.20, ymax=0.40,
+                title={(d) H-Measure (Reliability)}
+            ]
+            \addplot[color=orange, mark=diamond*, thick] table [x=Model, y=H] {\datatable};
+            \end{axis}
+        \end{tikzpicture}
+        &
+        % (e) Recall
+        \begin{tikzpicture}
+            \begin{axis}[
+                mylineplot,
+                ylabel={Recall},
+                ymin=0.55, ymax=0.95,
+                title={(e) Recall}
+            ]
+            \addplot[color=green!70!black, mark=pentagon*, thick] table [x=Model, y=Recall] {\datatable};
+            \end{axis}
+        \end{tikzpicture}
+        &
+        % (f) PCC
+        \begin{tikzpicture}
+            \begin{axis}[
+                mylineplot,
+                ylabel={PCC},
+                ymin=0.55, ymax=0.76,
+                title={(f) Accuracy (PCC)}
+            ]
+            \addplot[color=violet, mark=otimes*, thick] table [x=Model, y=PCC] {\datatable};
+            \end{axis}
+        \end{tikzpicture}
+        \\
+    \end{tabular}
+    \caption{Supplementary metric-wise diagnostic plots for canonical model family representatives. These univariate visualizations show performance across all computed metrics (AUC, KS, Brier Score, H-Measure, Recall, Accuracy) and are provided for completeness. The main Results section uses a two-dimensional frontier plot (Figure~\ref{fig:performance_reliability_frontier}) to better expose trade-offs between discriminative and calibration dimensions.}
+    \label{fig:diagnostic_metrics_appendix}
+\end{figure}
+
+\FloatBarrier
+
+%**********************Table: Comprehensive Model Performance***********************
+\begin{table}[H]
+\caption{Comprehensive Model Performance Results — german\_credit\_record.csv}
+\label{tab:all_models_german_credit_record_csv}
+\centering
+\footnotesize
+\begin{tabular}{l l c c c c c c c}
+\toprule
+Group & Model & AUC & PCC & Rec. & BS & KS & PG & H \\
+\midrule
+
+Bag-CART
+ & bag\_cart\_10   & 0.708 & 0.625 & 0.617 & 0.190 & 0.345 & 0.302 & 0.199 \\
+ & bag\_cart\_20   & 0.748 & 0.645 & 0.633 & 0.178 & 0.391 & 0.274 & 0.241 \\
+ & bag\_cart\_50   & 0.762 & 0.700 & 0.683 & 0.173 & 0.426 & 0.306 & 0.272 \\
+ & bag\_cart\_100  & 0.760 & 0.680 & 0.650 & 0.174 & 0.455 & 0.224 & 0.293 \\
+ & \textbf{bag\_cart\_250} & \textbf{0.767} & \textbf{0.685} & \textbf{0.667} & \textbf{0.171} & \textbf{0.431} & \textbf{0.262} & \textbf{0.287} \\
+ & bag\_cart\_500  & 0.767 & 0.700 & 0.650 & 0.170 & 0.448 & 0.199 & 0.293 \\
+ & bag\_cart\_1000 & 0.766 & 0.695 & 0.633 & 0.171 & 0.421 & 0.267 & 0.277 \\
+
+\midrule
+BagNN
+ & bagnn\_5    & 0.796 & 0.655 & 0.850 & 0.177 & 0.543 & 0.215 & 0.346 \\
+ & bagnn\_10   & 0.801 & 0.660 & 0.850 & 0.175 & 0.521 & 0.178 & 0.338 \\
+ & bagnn\_25   & 0.807 & 0.660 & 0.833 & 0.174 & 0.531 & 0.165 & 0.353 \\
+ & \textbf{bagnn\_100} & \textbf{0.809} & \textbf{0.660} & \textbf{0.850} & \textbf{0.174} & \textbf{0.526} & \textbf{0.132} & \textbf{0.373} \\
+
+\midrule
+Boost-DT
+ & boost\_dt\_10x0p1   & 0.756 & 0.610 & 0.867 & 0.206 & 0.445 & 0.113 & 0.220 \\
+ & boost\_dt\_10x0p5   & 0.768 & 0.630 & 0.850 & 0.188 & 0.476 & 0.328 & 0.240 \\
+ & boost\_dt\_10x1p0   & 0.768 & 0.615 & 0.867 & 0.186 & 0.455 & 0.331 & 0.215 \\
+ & boost\_dt\_50x0p1   & 0.762 & 0.615 & 0.867 & 0.195 & 0.495 & 0.201 & 0.250 \\
+ & boost\_dt\_50x0p5   & 0.777 & 0.660 & 0.800 & 0.180 & 0.486 & 0.272 & 0.258 \\
+ & boost\_dt\_50x1p0   & 0.788 & 0.660 & 0.800 & 0.173 & 0.502 & 0.216 & 0.283 \\
+ & boost\_dt\_100x0p1  & 0.764 & 0.630 & 0.833 & 0.189 & 0.457 & 0.345 & 0.229 \\
+ & boost\_dt\_100x0p5  & 0.786 & 0.675 & 0.800 & 0.176 & 0.502 & 0.247 & 0.286 \\
+ & boost\_dt\_100x1p0  & 0.789 & 0.690 & 0.783 & 0.169 & 0.498 & 0.155 & 0.310 \\
+ & boost\_dt\_250x0p1  & 0.778 & 0.660 & 0.783 & 0.181 & 0.488 & 0.307 & 0.256 \\
+ & boost\_dt\_250x0p5  & 0.789 & 0.695 & 0.817 & 0.173 & 0.498 & 0.291 & 0.289 \\
+ & boost\_dt\_250x1p0  & 0.783 & 0.715 & 0.800 & 0.170 & 0.519 & 0.260 & 0.298 \\
+ & boost\_dt\_500x0p1  & 0.783 & 0.665 & 0.800 & 0.178 & 0.491 & 0.295 & 0.267 \\
+ & boost\_dt\_500x0p5  & 0.791 & 0.700 & 0.800 & 0.171 & 0.512 & 0.227 & 0.296 \\
+ & \textbf{boost\_dt\_1000x0p5} & \textbf{0.784} & \textbf{0.700} & \textbf{0.783} & \textbf{0.171} & \textbf{0.510} & \textbf{0.103} & \textbf{0.304} \\
+ & boost\_dt\_500x1p0  & 0.776 & 0.715 & 0.800 & 0.171 & 0.491 & 0.191 & 0.292 \\
+ & boost\_dt\_1000x0p1 & 0.789 & 0.665 & 0.800 & 0.176 & 0.500 & 0.271 & 0.281 \\
+ & boost\_dt\_1000x1p0 & 0.772 & 0.695 & 0.767 & 0.171 & 0.467 & 0.346 & 0.280 \\
+
+\midrule
+KNN
+ & knn\_3      & 0.721 & 0.585 & 0.750 & 0.201 & 0.364 & 0.332 & 0.151 \\
+ & knn\_5      & 0.737 & 0.605 & 0.817 & 0.201 & 0.379 & 0.281 & 0.194 \\
+ & knn\_7      & 0.759 & 0.580 & 0.850 & 0.191 & 0.445 & 0.360 & 0.231 \\
+ & \textbf{knn\_11} & \textbf{0.770} & \textbf{0.565} & \textbf{0.883} & \textbf{0.190} & \textbf{0.510} & \textbf{0.185} & \textbf{0.283} \\
+ & knn\_tuned  & 0.756 & 0.660 & 0.750 & 0.187 & 0.419 & 0.382 & 0.209 \\
+
+\midrule
+AdaBoost
+ & adaboost\_10 & 0.745 & 0.625 & 0.833 & 0.195 & 0.455 & 0.174 & 0.211 \\
+ & adaboost\_20 & 0.770 & 0.670 & 0.817 & 0.180 & 0.483 & 0.245 & 0.251 \\
+ & \textbf{adaboost\_30} & \textbf{0.776} & \textbf{0.680} & \textbf{0.833} & \textbf{0.177} & \textbf{0.479} & \textbf{0.247} & \textbf{0.272} \\
+
+\midrule
+RF
+ & rf\_100\_mf\_0p1    & 0.763 & 0.680 & 0.500 & 0.179 & 0.481 & 0.444 & 0.241 \\
+ & rf\_100\_mf\_0p25   & 0.774 & 0.740 & 0.600 & 0.178 & 0.445 & 0.400 & 0.262 \\
+ & rf\_100\_mf\_0p5    & 0.753 & 0.680 & 0.549 & 0.186 & 0.460 & 0.242 & 0.257 \\
+ & rf\_100\_mf\_1p0    & 0.743 & 0.660 & 0.534 & 0.187 & 0.400 & 0.261 & 0.215 \\
+ & rf\_100\_mf\_sqrt   & 0.774 & 0.715 & 0.565 & 0.178 & 0.469 & 0.453 & 0.241 \\
+ & rf\_250\_mf\_0p1    & 0.771 & 0.715 & 0.551 & 0.176 & 0.476 & 0.432 & 0.259 \\
+ & rf\_250\_mf\_0p25   & 0.772 & 0.740 & 0.594 & 0.180 & 0.441 & 0.426 & 0.243 \\
+ & rf\_250\_mf\_0p5    & 0.760 & 0.695 & 0.567 & 0.184 & 0.441 & 0.295 & 0.237 \\
+ & rf\_250\_mf\_1p0    & 0.744 & 0.660 & 0.534 & 0.186 & 0.429 & 0.211 & 0.238 \\
+ & rf\_250\_mf\_sqrt   & 0.775 & 0.725 & 0.567 & 0.177 & 0.445 & 0.436 & 0.241 \\
+ & rf\_500\_mf\_0p1    & 0.779 & 0.730 & 0.565 & 0.175 & 0.467 & 0.417 & 0.254 \\
+ & rf\_500\_mf\_0p25   & 0.770 & 0.735 & 0.589 & 0.180 & 0.433 & 0.421 & 0.242 \\
+ & rf\_500\_mf\_0p5    & 0.762 & 0.710 & 0.580 & 0.182 & 0.443 & 0.296 & 0.240 \\
+ & rf\_500\_mf\_1p0    & 0.743 & 0.665 & 0.538 & 0.187 & 0.421 & 0.203 & 0.237 \\
+ & \textbf{rf\_500\_mf\_sqrt}   & \textbf{0.774} & \textbf{0.735} & \textbf{0.617} & \textbf{0.177} & \textbf{0.441} & \textbf{0.413} & \textbf{0.244} \\
+ & rf\_750\_mf\_0p1    & 0.777 & 0.735 & 0.583 & 0.175 & 0.476 & 0.448 & 0.264 \\
+ & rf\_750\_mf\_0p25   & 0.770 & 0.735 & 0.589 & 0.181 & 0.441 & 0.416 & 0.251 \\
+ & rf\_750\_mf\_0p5    & 0.763 & 0.705 & 0.576 & 0.182 & 0.431 & 0.341 & 0.234 \\
+ & rf\_750\_mf\_1p0    & 0.741 & 0.665 & 0.538 & 0.188 & 0.419 & 0.218 & 0.233 \\
+ & rf\_1000\_mf\_0p1   & 0.777 & 0.730 & 0.578 & 0.176 & 0.476 & 0.422 & 0.264 \\
+ & rf\_1000\_mf\_0p25  & 0.768 & 0.735 & 0.589 & 0.181 & 0.419 & 0.391 & 0.254 \\
+ & rf\_1000\_mf\_0p5   & 0.763 & 0.700 & 0.571 & 0.181 & 0.452 & 0.378 & 0.241 \\
+ & rf\_1000\_mf\_1p0   & 0.741 & 0.665 & 0.538 & 0.188 & 0.412 & 0.232 & 0.226 \\
+ & rf\_1000\_mf\_sqrt  & 0.772 & 0.735 & 0.583 & 0.178 & 0.438 & 0.407 & 0.254 \\
+ & rf\_750\_mf\_sqrt   & 0.773 & 0.740 & 0.594 & 0.177 & 0.433 & 0.442 & 0.248 \\
+
+\midrule
+SGB
+ & sgb\_10   & 0.748 & 0.630 & 0.850 & 0.196 & 0.462 & 0.182 & 0.208 \\
+ & sgb\_20   & 0.761 & 0.675 & 0.817 & 0.188 & 0.438 & 0.346 & 0.222 \\
+ & sgb\_50   & 0.779 & 0.705 & 0.767 & 0.176 & 0.479 & 0.445 & 0.273 \\
+ & sgb\_100  & 0.776 & 0.705 & 0.750 & 0.173 & 0.464 & 0.325 & 0.264 \\
+ & sgb\_250  & 0.776 & 0.710 & 0.733 & 0.165 & 0.448 & 0.308 & 0.300 \\
+ & sgb\_500  & 0.769 & 0.690 & 0.700 & 0.167 & 0.455 & 0.296 & 0.284 \\
+ & sgb\_1000 & 0.761 & 0.690 & 0.700 & 0.169 & 0.426 & 0.252 & 0.276 \\
+
+\midrule
+LR
+ & lr\_lbfgs        & 0.791 & 0.605 & 0.867 & 0.182 & 0.541 & 0.014 & 0.327 \\
+ & \textbf{lr\_newton\_cg} & \textbf{0.791} & \textbf{0.605} & \textbf{0.867} & \textbf{0.182} & \textbf{0.541} & \textbf{0.018} & \textbf{0.327} \\
+ & lr\_saga         & 0.791 & 0.605 & 0.867 & 0.182 & 0.541 & 0.018 & 0.326 \\
+
+\midrule
+LR-Reg
+ & lr\_reg\_lbfgs      & 0.798 & 0.615 & 0.867 & 0.179 & 0.538 & 0.067 & 0.341 \\
+ & \textbf{lr\_reg\_liblinear} & \textbf{0.803} & \textbf{0.625} & \textbf{0.883} & \textbf{0.179} & \textbf{0.531} & \textbf{0.144} & \textbf{0.333} \\
+ & lr\_reg\_saga       & 0.801 & 0.610 & 0.867 & 0.179 & 0.545 & 0.085 & 0.337 \\
+
+\bottomrule
+\end{tabular}
+
+\vspace{2mm}
+\raggedright\footnotesize
+Note: Best-performing model within each family is highlighted in bold. AUC = Area Under ROC Curve; PCC = Percent Correctly Classified; Rec. = Recall; BS = Brier Score; KS = Kolmogorov--Smirnov statistic; PG = Performance Gap; H = H-measure.
+\end{table}
+
+\FloatBarrier

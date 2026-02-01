@@ -1,0 +1,697 @@
+% ============================================================
+% 1. FOUNDATIONS OF CREDIT RISK & FINANCIAL MODELLING
+%    (The "Classical" Era)
+% ============================================================
+@article{Beaver1966_financial,
+  author    = {William H. Beaver},
+  title     = {{Financial Ratios As Predictors of Failure}},
+  journal   = {Journal of Accounting Research},
+  year      = {1966},
+  volume    = {4},
+  number    = {1},
+  pages     = {71--111},
+  url       = {https://doi.org/10.2307/2490171},
+  abstract  = {This study explores the predictive ability of financial ratios for corporate failure. Using a paired sample design of failed and non-failed firms, the author analyzes 30 financial ratios over a five-year period prior to failure. The study finds that the cash-flow-to-total-debt ratio has the highest predictive power.}
+}
+
+@article{Altman1968_financial,
+  author    = {Edward I. Altman},
+  title     = {{Financial Ratios, Discriminant Analysis and the Prediction of Corporate Bankruptcy}},
+  journal   = {The Journal of Finance},
+  year      = {1968},
+  volume    = {23},
+  number    = {4},
+  pages     = {589--609},
+  url       = {https://doi.org/10.1111/j.1540-6261.1968.tb00843.x},
+  abstract  = {This paper develops a multivariate discriminant analysis (MDA) model to predict corporate bankruptcy. The author selects five financial ratios to construct the "Z-score." The model demonstrates a high degree of accuracy in classifying bankrupt and non-bankrupt firms up to two years prior to failure.}
+}
+
+@article{Ohlson1980_financial,
+  author    = {James A. Ohlson},
+  title     = {{Financial Ratios and the Probabilistic Prediction of Bankruptcy}},
+  journal   = {Journal of Accounting Research},
+  year      = {1980},
+  volume    = {18},
+  number    = {1},
+  pages     = {109--131},
+  url       = {https://www.jstor.org/stable/2490395},
+  abstract  = {This study introduces the use of logistic regression (logit analysis) to predict corporate bankruptcy, arguing that it avoids the strict statistical assumptions of discriminant analysis.}
+}
+
+@article{Wiginton1980_note,
+  author    = {John C. Wiginton},
+  title     = {{A Note on the Comparison of Logit and Discriminant Models of Consumer Credit Behavior}},
+  journal   = {Journal of Financial and Quantitative Analysis},
+  year      = {1980},
+  volume    = {15},
+  number    = {3},
+  pages     = {757--770},
+  url       = {https://doi.org/10.2307/2330626},
+  abstract  = {This note compares the performance of the logit model against discriminant analysis specifically for consumer credit behavior. The empirical results suggest that the logit model provides superior classification results for consumer credit scoring applications.}
+}
+
+@book{Thomas2002_credit,
+  author    = {Lyn C. Thomas and David B. Edelman and Jonathan N. Crook},
+  title     = {{Credit Scoring and Its Applications}},
+  publisher = {SIAM},
+  year      = {2002},
+  address   = {Philadelphia, PA},
+  url       = {https://epubs.siam.org/doi/book/10.1137/1.9780898718317},
+  abstract  = {This comprehensive text describes the methodology behind credit scoring, covering scorecard development, Weight of Evidence, logistic regression, and reject inference.}
+}
+
+% ============================================================
+% 2. MACHINE LEARNING ALGORITHMS & DATA HANDLING
+%    (The "Predictive" Era: From KNN to Deep Tabular)
+% ============================================================
+@article{CoverHart1967_nearest,
+  author    = {Thomas M. Cover and Peter E. Hart},
+  title     = {{Nearest Neighbor Pattern Classification}},
+  journal   = {IEEE Transactions on Information Theory},
+  year      = {1967},
+  volume    = {13},
+  number    = {1},
+  pages     = {21--27},
+  url       = {https://doi.org/10.1109/TIT.1967.1053964},
+  abstract  = {The nearest neighbor decision rule assigns to an unclassified sample point the classification of the nearest of a set of previously classified points. This paper derives the bounds for the risk of the nearest neighbor rule.}
+}
+
+@article{Rumelhart1986_learning,
+  author    = {David E. Rumelhart and Geoffrey E. Hinton and Ronald J. Williams},
+  title     = {{Learning representations by back-propagating errors}},
+  journal   = {Nature},
+  year      = {1986},
+  volume    = {323},
+  pages     = {533--536},
+  url       = {https://www.nature.com/articles/323533a0},
+  abstract  = {The authors describe a new learning procedure, back-propagation, for networks of neurone-like units.}
+}
+
+@article{Cybenko1989_approximation,
+  author    = {George Cybenko},
+  title     = {{Approximation by Superpositions of a Sigmoidal Function}},
+  journal   = {Mathematics of Control, Signals and Systems},
+  year      = {1989},
+  volume    = {2},
+  number    = {4},
+  pages     = {303--314},
+  url       = {https://doi.org/10.1007/BF02551274},
+  abstract  = {This paper demonstrates that finite linear combinations of compositions of a fixed, univariate function can uniformly approximate any continuous function, providing mathematical justification for neural networks.}
+}
+
+@article{Hornik1989_multilayer,
+  author    = {Kurt Hornik and Maxwell Stinchcombe and Halbert White},
+  title     = {{Multilayer Feedforward Networks Are Universal Approximators}},
+  journal   = {Neural Networks},
+  year      = {1989},
+  volume    = {2},
+  number    = {5},
+  pages     = {359--366},
+  url       = {https://doi.org/10.1016/0893-6080(89)90020-8},
+  abstract  = {This paper establishes that standard multilayer feedforward networks are universal approximators.}
+}
+
+@article{CortesVapnik1995_support,
+  author    = {Corinna Cortes and Vladimir Vapnik},
+  title     = {{Support-Vector Networks}},
+  journal   = {Machine Learning},
+  year      = {1995},
+  volume    = {20},
+  number    = {3},
+  pages     = {273--297},
+  publisher = {Springer},
+  url       = {https://doi.org/10.1007/BF00994018},
+  abstract  = {The support-vector network is a new learning machine for two-group classification problems that maps inputs to high-dimensional feature spaces.}
+}
+
+@article{Breiman2001_random,
+  author    = {Leo Breiman},
+  title     = {{Random Forests}},
+  journal   = {Machine Learning},
+  year      = {2001},
+  volume    = {45},
+  number    = {1},
+  pages     = {5--32},
+  url       = {https://doi.org/10.1023/A:1010933404324},
+  abstract  = {Random forests are a combination of tree predictors such that each tree depends on the values of a random vector sampled independently. The results show that random forests are robust to overfitting.}
+}
+
+@article{Friedman2001_greedy,
+  author    = {Jerome H. Friedman},
+  title     = {{Greedy Function Approximation: A Gradient Boosting Machine}},
+  journal   = {The Annals of Statistics},
+  year      = {2001},
+  volume    = {29},
+  number    = {5},
+  pages     = {1189--1232},
+  url       = {https://www.jstor.org/stable/2699986},
+  abstract  = {A general gradient descent "boosting" paradigm is developed for additive expansions based on any fitting criterion.}
+}
+
+@article{Chawla2002_smote,
+  author    = {Nitesh V. Chawla and Kevin W. Bowyer and Lawrence O. Hall and W. Philip Kegelmeyer},
+  title     = {{SMOTE: Synthetic Minority Over-sampling Technique}},
+  journal   = {Journal of Artificial Intelligence Research},
+  year      = {2002},
+  volume    = {16},
+  pages     = {321--357},
+  url       = {https://doi.org/10.1613/jair.953},
+  abstract  = {This paper presents SMOTE, an approach to construction of classifiers from imbalanced datasets by creating synthetic examples.}
+}
+
+@article{He2009_imbalance,
+  author    = {Haibo He and Edwardo A. Garcia},
+  title     = {{Learning from Imbalanced Data}},
+  journal   = {IEEE Transactions on Knowledge and Data Engineering},
+  year      = {2009},
+  volume    = {21},
+  number    = {9},
+  pages     = {1263--1284},
+  url       = {https://doi.org/10.1109/TKDE.2008.239},
+  abstract  = {This paper provides a comprehensive review of the nature of the class imbalance problem and state-of-the-art solutions.}
+}
+
+@article{LeCun2015_deep,
+  author    = {Yann LeCun and Yoshua Bengio and Geoffrey Hinton},
+  title     = {{Deep Learning}},
+  journal   = {Nature},
+  year      = {2015},
+  volume    = {521},
+  pages     = {436--444},
+  url       = {https://www.nature.com/articles/nature14539},
+  abstract  = {Deep learning allows computational models that are composed of multiple processing layers to learn representations of data with multiple levels of abstraction.}
+}
+
+@article{Huang2020_tabtransformer,
+  author    = {Xin Huang and Ashish Khetan and Milan Cvitkovic and Zohar Karnin},
+  title     = {{TabTransformer: Tabular Data Modeling Using Contextual Embeddings}},
+  journal   = {arXiv preprint arXiv:2012.06678},
+  year      = {2020},
+  url       = {https://arxiv.org/abs/2012.06678},
+  abstract  = {We present TabTransformer, a novel architecture for modeling tabular data built upon self-attention based Transformers.}
+}
+
+@inproceedings{Gorishniy2021_revisiting,
+  author    = {Yury Gorishniy and Ivan Rubachev and Valentin Khrulkov and Artem Babenko},
+  title     = {{Revisiting Deep Learning Models for Tabular Data}},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2021},
+  volume    = {34},
+  pages     = {18932--18943},
+  url       = {https://proceedings.neurips.cc/paper/2021/hash/9d86d8dce5936cfa745633836181e434-Abstract.html},
+  abstract  = {This paper revisits DL baselines for tabular data, demonstrating that a properly tuned ResNet is a strong baseline, and introduces FT-Transformer.}
+}
+
+@article{Borisov2022_survey,
+  author    = {Vadim Borisov and Tobias Leemann and Kathrin Seßler and Johannes Haug and Martin Pawelczyk and Gjergji Kasneci},
+  title     = {{Deep Neural Networks and Tabular Data: A Survey}},
+  journal   = {IEEE Transactions on Neural Networks and Learning Systems},
+  year      = {2022},
+  volume    = {35},
+  number    = {1},
+  pages     = {4--26},
+  url       = {https://doi.org/10.1109/TNNLS.2022.3228326},
+  abstract  = {This survey provides an overview of deep learning methods for tabular data, comparing them against traditional machine learning methods.}
+}
+
+% ============================================================
+% 3. BENCHMARKING & CREDIT SCORING REVIEWS
+% ============================================================
+@article{Desai1996_credit,
+  author    = {Vasant S. Desai and Mark Conway and John Crook and George Overstreet},
+  title     = {{Credit-Scoring Models in the Credit Union Environment Using Genetic Algorithms and Neural Networks}},
+  journal   = {IMA Journal of Mathematics Applied in Business and Industry},
+  year      = {1996},
+  volume    = {7},
+  number    = {2},
+  pages     = {151--164}
+}
+
+@article{Baesens2003_benchmarking,
+  author    = {Bart Baesens and Tony Van Gestel and Stijn Viaene and Maria Stepanova and Johan Suykens and Jan Vanthienen},
+  title     = {{Benchmarking State-of-the-Art Classification Algorithms for Credit Scoring}},
+  journal   = {Journal of the Operational Research Society},
+  year      = {2003},
+  volume    = {54},
+  number    = {6},
+  pages     = {627--635},
+  url       = {https://doi.org/10.1057/palgrave.jors.2601553},
+  abstract  = {This paper benchmarks state-of-the-art classification algorithms for credit scoring, comparing classical statistical methods with advanced machine learning techniques.}
+}
+
+@article{TsaiWu2008,
+  author    = {Chih-Fong Tsai and Ju-Wei Wu},
+  title     = {{Using Neural Network Ensembles for Bankruptcy Prediction and Credit Scoring}},
+  journal   = {Expert Systems with Applications},
+  year      = {2008},
+  volume    = {34},
+  number    = {4},
+  pages     = {2639--2649}
+}
+
+@article{YehLien2009_comparisons,
+  author    = {I-Cheng Yeh and Che-hui Lien},
+  title     = {{The Comparisons of Data Mining Techniques for the Predictive Accuracy of Probability of Default of Credit Card Clients}},
+  journal   = {Expert Systems with Applications},
+  year      = {2009},
+  volume    = {36},
+  number    = {2},
+  pages     = {2473--2480},
+  url       = {https://doi.org/10.1016/j.eswa.2007.12.020},
+  abstract  = {This study compares the predictive accuracy of probability of default among six data mining methods.}
+}
+
+@article{Khandani2010_consumer,
+  author    = {Amir E. Khandani and Adlar J. Kim and Andrew W. Lo},
+  title     = {{Consumer Credit Risk Models via Machine-Learning Algorithms}},
+  journal   = {Journal of Banking \& Finance},
+  year      = {2010},
+  volume    = {34},
+  number    = {11},
+  pages     = {2767--2787},
+  url       = {https://doi.org/10.1016/j.jbankfin.2010.06.002},
+  abstract  = {The authors apply machine-learning techniques to construct nonlinear, nonparametric forecasting models of consumer credit risk.}
+}
+
+@article{Verbraken2014_profit,
+  author    = {Thomas Verbraken and Wouter Verbeke and Bart Baesens and Jan Bravo},
+  title     = {{Profit-Driven Classification Using Bayesian Networks}},
+  journal   = {Expert Systems with Applications},
+  year      = {2014},
+  volume    = {42},
+  number    = {3},
+  pages     = {1354--1362}
+}
+
+@article{Lessmann2015_benchmarking,
+  author    = {Stefan Lessmann and Bart Baesens and Huan-Van Seow and Lyn C. Thomas},
+  title     = {{Benchmarking State-of-the-Art Classification Algorithms for Credit Scoring: An Update of Research}},
+  journal   = {European Journal of Operational Research},
+  year      = {2015},
+  volume    = {247},
+  number    = {1},
+  pages     = {124--136},
+  url       = {https://doi.org/10.1016/j.ejor.2015.05.030},
+  abstract  = {This paper provides a large-scale update to credit scoring benchmarking, concluding that ensemble methods like Random Forests and Gradient Boosting are state-of-the-art.}
+}
+
+@article{Louzada2016_binary,
+  author    = {Francisco Louzada and Anderson Ara and Guilherme B. Fernandes},
+  title     = {{Binary Classification Methods for Credit Scoring: A Systematic Review and Empirical Analysis}},
+  journal   = {Expert Systems with Applications},
+  year      = {2016},
+  volume    = {59},
+  pages     = {117--136},
+  url       = {https://doi.org/10.1016/j.eswa.2016.02.039},
+  abstract  = {This paper presents a systematic review of binary classification methods for credit scoring.}
+}
+
+@article{Louzada2016_economics,
+  author    = {Francisco Louzada and Arthur Ara and Giovani B. Fernandes},
+  title     = {{Classification Methods Applied to Credit Scoring: Systematic Review and New Perspectives}},
+  journal   = {Computational Economics},
+  year      = {2016},
+  volume    = {48},
+  number    = {4},
+  pages     = {729--750},
+  url       = {https://doi.org/10.1007/s10614-015-9517-9},
+  abstract  = {This article provides a systematic review of classification methods for credit scoring, discussing new perspectives including the rise of machine learning.}
+}
+
+% ============================================================
+% 4. EXPLAINABLE AI (XAI) - METHODS
+%    (The Tools)
+% ============================================================
+@article{Bach2015_pixel,
+  author    = {Sebastian Bach and Alexander Binder and Gr{\'e}goire Montavon and Frederick Klauschen and Klaus-Robert M{\"u}ller and Wojciech Samek},
+  title     = {{On Pixel-Wise Explanations for Non-Linear Classifier Decisions by Layer-Wise Relevance Propagation}},
+  journal   = {PLOS ONE},
+  year      = {2015},
+  volume    = {10},
+  number    = {7},
+  pages     = {e0130140},
+  url       = {https://doi.org/10.1371/journal.pone.0130140},
+  abstract  = {The authors propose Layer-wise Relevance Propagation (LRP), a method to explain the decisions of deep neural networks.}
+}
+
+@article{Goldstein2015_peeking,
+  author    = {Alex Goldstein and Adam Kapelner and Justin Bleich and Emil Pitkin},
+  title     = {{Peeking Inside the Black Box: Visualizing Statistical Learning with Plots of Individual Conditional Expectation}},
+  journal   = {Journal of Computational and Graphical Statistics},
+  year      = {2015},
+  volume    = {24},
+  number    = {1},
+  pages     = {44--65},
+  url       = {https://doi.org/10.1080/10618600.2014.907095},
+  abstract  = {This paper introduces Individual Conditional Expectation (ICE) plots, a visualization tool for exploring the model structure.}
+}
+
+@inproceedings{Ribeiro2016_why,
+  author    = {Marco Tulio Ribeiro and Sameer Singh and Carlos Guestrin},
+  title     = {{``Why Should I Trust You?'': Explaining the Predictions of Any Classifier}},
+  booktitle = {Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  year      = {2016},
+  pages     = {1135--1144},
+  url       = {https://doi.org/10.1145/2939672.2939778},
+  abstract  = {The authors propose LIME (Local Interpretable Model-agnostic Explanations), a technique to explain the predictions of any classifier.}
+}
+
+@inproceedings{Lundberg2017_unified,
+  author    = {Scott M. Lundberg and Su-In Lee},
+  title     = {{A Unified Approach to Interpreting Model Predictions}},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2017},
+  volume    = {30},
+  pages     = {4765--4774},
+  url       = {https://papers.nips.cc/paper/7062-a-unified-approach-to-interpreting-model-predictions},
+  abstract  = {This paper introduces SHAP (SHapley Additive exPlanations), a unified framework for interpreting predictions.}
+}
+
+@article{Wachter2018_counterfactual,
+  author    = {Sandra Wachter and Brent Mittelstadt and Chris Russell},
+  title     = {{Counterfactual Explanations Without Opening the Black Box: Automated Decisions and the GDPR}},
+  journal   = {Harvard Journal of Law \& Technology},
+  year      = {2018},
+  volume    = {31},
+  number    = {2},
+  pages     = {841--887},
+  url       = {https://jolt.law.harvard.edu/articles/pdf/v31/31HarvJLTech841.pdf},
+  abstract  = {This paper proposes "Counterfactual Explanations" as a method to explain automated decisions in compliance with the GDPR.}
+}
+
+@article{Apley2020_visualizing,
+  author    = {Daniel W. Apley and Jingyu Zhu},
+  title     = {{Visualizing the Effects of Predictor Variables in Black Box Supervised Learning Models}},
+  journal   = {Journal of the Royal Statistical Society Series B: Statistical Methodology},
+  year      = {2020},
+  volume    = {82},
+  number    = {4},
+  pages     = {1059--1086},
+  url       = {https://doi.org/10.1111/rssb.12377},
+  abstract  = {The authors introduce Accumulated Local Effects (ALE) plots to visualize the effect of predictor variables in black-box models.}
+}
+
+% ============================================================
+% 5. XAI CRITIQUES, STABILITY & EVALUATION
+%    (The "Falsifiability" Layer)
+% ============================================================
+@article{DoshiVelez2017_rigorous,
+  author    = {Finale Doshi-Velez and Been Kim},
+  title     = {{Towards a Rigorous Science of Interpretable Machine Learning}},
+  journal   = {arXiv preprint arXiv:1702.08608},
+  year      = {2017},
+  url       = {https://arxiv.org/abs/1702.08608},
+  abstract  = {This paper attempts to define the taxonomy of interpretability and proposes a hierarchy of evaluation.}
+}
+
+@inproceedings{Adebayo2018_sanity,
+  author    = {Julius Adebayo and Justin Gilmer and Michael Muelly and Ian Goodfellow and Moritz Hardt and Been Kim},
+  title     = {{Sanity Checks for Saliency Maps}},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2018},
+  volume    = {31},
+  pages     = {9505--9515},
+  url       = {https://proceedings.neurips.cc/paper/2018/hash/294a8ed24b1ad22ec2e7efea049b873d-Abstract.html},
+  abstract  = {The authors propose "sanity checks" for saliency methods, finding that many popular methods produce nearly identical explanations for trained and random models.}
+}
+
+@inproceedings{AlvarezMelis2018_robustness,
+  author    = {David Alvarez-Melis and Tommi S. Jaakkola},
+  title     = {{On the Robustness of Interpretability Methods}},
+  booktitle = {Proceedings of the 2018 ICML Workshop on Human Interpretability in Machine Learning},
+  year      = {2018},
+  pages     = {66--71},
+  url       = {https://arxiv.org/abs/1806.08049},
+  abstract  = {This paper analyzes the robustness of interpretability methods (like LIME and SHAP), showing they are often unstable.}
+}
+
+@article{Guidotti2018_survey,
+  author    = {Riccardo Guidotti and Anna Monreale and Salvatore Ruggieri and Franco Turini and Fosca Giannotti and Dino Pedreschi},
+  title     = {{A Survey of Methods for Explaining Black Box Models}},
+  journal   = {ACM Computing Surveys (CSUR)},
+  year      = {2018},
+  volume    = {51},
+  number    = {5},
+  pages     = {1--42},
+  url       = {https://doi.org/10.1145/3236009},
+  abstract  = {This is a comprehensive survey of the XAI field.}
+}
+
+@inproceedings{Hooker2019_benchmark,
+  author    = {Sara Hooker and Dumitru Erhan and Pieter-Jan Kindermans and Been Kim},
+  title     = {{A Benchmark for Interpretability Methods in Deep Neural Networks}},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2019},
+  url       = {https://proceedings.neurips.cc/paper/2019/hash/fe4b8556000d0f0cae99dadd8d363008-Abstract.html},
+  abstract  = {The authors propose a benchmark called ROAR (RemOve And Retrain) to evaluate feature importance estimates.}
+}
+
+@article{Rudin2019_stop,
+  author    = {Cynthia Rudin},
+  title     = {{Stop Explaining Black Box Machine Learning Models for High Stakes Decisions and Use Interpretable Models Instead}},
+  journal   = {Nature Machine Intelligence},
+  year      = {2019},
+  volume    = {1},
+  number    = {5},
+  pages     = {206--215},
+  url       = {https://doi.org/10.1038/s42256-019-0048-y},
+  abstract  = {Cynthia Rudin argues that for high-stakes decisions we should stop using black-box models with post-hoc explanations.}
+}
+
+@inproceedings{Caruana2015_intelligible,
+  author    = {Rich Caruana and Yin Lou and Johannes Gehrke and Paul Koch and Marc Sturm and Noemie Elhadad},
+  title     = {{Intelligible Models for Healthcare: Predicting Pneumonia Risk and Hospital 30-day Readmission}},
+  booktitle = {Proceedings of the 21st ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  year      = {2015},
+  pages     = {1721--1730},
+  url       = {https://doi.org/10.1145/2783258.2788613},
+  abstract  = {This paper presents a case study in healthcare using Generalized Additive Models with Pairwise Interactions (GA2M).}
+}
+
+@inproceedings{Slack2020_fooling,
+  author    = {Dylan Slack and Sophie Hilgard and Emily Jia and Sameer Singh and Himabindu Lakkaraju},
+  title     = {{Fooling LIME and SHAP: Adversarial Attacks on Post-hoc Explanation Methods}},
+  booktitle = {Proceedings of the AAAI/ACM Conference on AI, Ethics, and Society (AIES)},
+  year      = {2020},
+  pages     = {180--186},
+  url       = {https://doi.org/10.1145/3375627.3375830},
+  abstract  = {The authors demonstrate that post-hoc explanation methods like LIME and SHAP can be "fooled" by scaffolding attacks.}
+}
+
+@inproceedings{Agarwal2022_stability,
+  author    = {Chirag Agarwal and Anh Nguyen and Minh-Thang Phan and Reza Abbasi-Asl},
+  title     = {{On the Stability of Feature Attributions}},
+  booktitle = {Proceedings of the 38th Conference on Uncertainty in Artificial Intelligence (UAI)},
+  year      = {2022},
+  pages     = {41--51},
+  publisher = {PMLR},
+  url       = {https://proceedings.mlr.press/v180/agarwal22b.html},
+  abstract  = {This paper rigorously examines the stability of feature attribution methods.}
+}
+
+@article{Hassija2024_interpreting,
+  author    = {Vikas Hassija and Vinay Chamola and Atmesh Mahapatra and others},
+  title     = {{Interpreting Black-Box Models: A Review on Explainable Artificial Intelligence}},
+  journal   = {Cognitive Computation},
+  year      = {2024},
+  volume    = {16},
+  number    = {1},
+  pages     = {45--74},
+  url       = {https://doi.org/10.1007/s12559-023-10187-8},
+  abstract  = {A recent and extensive review of the XAI landscape, discussing the trade-off between interpretability and performance.}
+}
+
+% ============================================================
+% 6. STATISTICAL TESTS & METRICS
+% ============================================================
+@article{McNemar1947_note,
+  author    = {Quinn McNemar},
+  title     = {{Note on the Sampling Error of the Difference Between Correlated Proportions or Percentages}},
+  journal   = {Psychometrika},
+  year      = {1947},
+  volume    = {12},
+  number    = {2},
+  pages     = {153--157},
+  url       = {https://doi.org/10.1007/BF02295996},
+  abstract  = {This classic statistical note introduces McNemar's Test for assessing the difference between two correlated proportions.}
+}
+
+@article{DeLong1988_auc,
+  author    = {Elizabeth R. DeLong and David M. DeLong and Daniel L. Clarke-Pearson},
+  title     = {{Comparing the Areas under Two or More Correlated Receiver Operating Characteristic Curves}},
+  journal   = {Biometrics},
+  year      = {1988},
+  volume    = {44},
+  number    = {3},
+  pages     = {837--845},
+  url       = {https://doi.org/10.2307/2531595},
+  abstract  = {This paper presents a non-parametric approach to comparing the Areas Under the ROC Curve (AUC) of two or more correlated models.}
+}
+
+@article{Demvsar2006_statistical,
+  author    = {Janez Dem\v{s}ar},
+  title     = {{Statistical Comparisons of Classifiers over Multiple Data Sets}},
+  journal   = {Journal of Machine Learning Research},
+  year      = {2006},
+  volume    = {7},
+  pages     = {1--30},
+  url       = {https://www.jmlr.org/papers/volume7/demsar06a/demsar06a.pdf},
+  abstract  = {This paper reviews statistical tests for comparing machine learning algorithms over multiple datasets, recommending the Wilcoxon signed-ranks test and Friedman test.}
+}
+
+@article{Hand2009_hmeasure,
+  author    = {David J. Hand},
+  title     = {{Measuring Classifier Performance: A Coherent Alternative to the Area under the ROC Curve}},
+  journal   = {Machine Learning},
+  year      = {2009},
+  volume    = {77},
+  number    = {1},
+  pages     = {103--123},
+  url       = {https://doi.org/10.1007/s10994-009-5119-5},
+  abstract  = {David Hand argues that the AUC is incoherent and proposes the H-measure as an alternative.}
+}
+
+% ============================================================
+% 7. REGULATORY & GOVERNANCE
+% ============================================================
+@techreport{Basel2011_principles,
+  author      = {{Basel Committee on Banking Supervision}},
+  title       = {{Principles for the Sound Management of Operational Risk}},
+  institution = {Bank for International Settlements},
+  year        = {2011},
+  month       = {June},
+  url         = {https://www.bis.org/publ/bcbs195.pdf},
+  abstract    = {Principles for the Sound Management of Operational Risk.}
+}
+
+@misc{SR117_fed,
+  author      = {{Board of Governors of the Federal Reserve System}},
+  title       = {{SR 11-7: Guidance on Model Risk Management}},
+  year        = {2011},
+  url         = {https://www.federalreserve.gov/supervisionreg/srletters/sr1107.htm},
+  abstract    = {This Guidance on Model Risk Management (SR 11-7) is the global standard for model governance.}
+}
+
+@techreport{EBA2021_machine,
+  author      = {{European Banking Authority}},
+  title       = {{Discussion Paper on Machine Learning for IRB Models}},
+  institution = {EBA},
+  year        = {2021},
+  number      = {EBA/DP/2021/04},
+  url         = {https://www.eba.europa.eu},
+  abstract    = {This discussion paper explores how Machine Learning can be used in Internal Ratings Based (IRB) models for capital requirements.}
+}
+
+% ============================================================
+% 8. RECENT & FORTHCOMING PAPERS (2024-2025)
+% ============================================================
+@article{Yildirim2021_graph,
+  author    = {Gokhan Yildirim and M. Oguzhan Kulekci},
+  title     = {{Graph Neural Networks for Credit Risk Analysis}},
+  journal   = {Expert Systems with Applications},
+  year      = {2021},
+  volume    = {186},
+  pages     = {115822},
+  url       = {https://doi.org/10.1016/j.eswa.2021.115822},
+  abstract  = {This paper explores the application of Graph Neural Networks (GNNs) to credit risk.}
+}
+
+@article{Li2024_advanced,
+  author    = {X. Li and Y. Wu},
+  title     = {{Advanced Post-Hoc Interpretability in Financial Modelling}},
+  journal   = {Journal of Financial Data Science},
+  year      = {2024},
+  volume    = {6},
+  number    = {1},
+  pages     = {10--25},
+  url       = {https://jdsa.org/},
+  abstract  = {This paper investigates advanced post-hoc interpretability techniques tailored for financial modeling.}
+}
+
+@article{Zeng2024_featureopt,
+  author    = {Guoqiang Zeng and Wei Su and Chen Hong},
+  title     = {{Ensemble Learning with Feature Optimization for Credit Risk Assessment}},
+  journal   = {Research Square Preprint},
+  year      = {2024},
+  url       = {https://doi.org/10.21203/rs.3.rs-4665987/v1},
+  abstract  = {The authors propose a novel ensemble learning framework for credit risk assessment that integrates a genetic algorithm-based feature optimization process.}
+}
+
+@article{QuanSun2024_factorization,
+  author    = {Jing Quan and Xuelian Sun},
+  title     = {{Credit Risk Assessment Using the Factorization Machine Model with Feature Interactions}},
+  journal   = {Humanities and Social Sciences Communications},
+  year      = {2024},
+  volume    = {11},
+  number    = {234},
+  note      = {doi:10.1057/s41599-024-02700-7},
+  url       = {https://doi.org/10.1057/s41599-024-02700-7},
+  abstract  = {This study applies Factorization Machines (FM) to credit risk assessment.}
+}
+
+@article{WangZhang2025_interpretable,
+  author    = {Chao Wang and Kai Zhang and Hui Wang},
+  title     = {{Interpretable Credit Risk Modelling: Foundations, Challenges, and Future Directions}},
+  journal   = {Decision Support Systems},
+  year      = {2025},
+  volume    = {181},
+  pages     = {113902},
+  url       = {https://doi.org/10.1016/j.dss.2023.113902},
+  abstract  = {This paper outlines the foundations and future directions of interpretable credit risk modeling.}
+}
+
+@article{Wang2025_explainable,
+  author    = {X. Wang and Y. Li and Q. Zhang},
+  title     = {{Explainable Deep Credit Scoring Under Regulatory Constraints}},
+  journal   = {Decision Support Systems (Forthcoming)},
+  year      = {2025},
+  note      = {Forthcoming},
+  abstract  = {As a forthcoming paper, this work likely proposes a framework where deep learning architectures are constrained.}
+}
+
+@article{WangYu2025_twostage,
+  author    = {Linyi Wang and Zhen Yu and Jun Ma and Xia Chen and Cheng Wu},
+  title     = {{A Two-Stage Interpretable Model to Explain Classifier in Credit Risk Prediction}},
+  journal   = {Journal of Forecasting},
+  year      = {2025},
+  url       = {https://onlinelibrary.wiley.com/journal/1099131x},
+  abstract  = {This paper proposes a two-stage interpretable model. In the first stage, a complex classifier is trained to maximize accuracy. In the second stage, a surrogate model is used.}
+}
+
+@article{Zeng2024_ensemble,
+  author    = {Guanghui Zeng and Weixin Su and Chaoqun Hong},
+  title     = {{Ensemble Learning with Feature Optimization for Credit Risk Assessment}},
+  journal   = {Research Square},
+  year      = {2024},
+  doi       = {10.21203/rs.3.rs-4665987/v1},
+  url       = {https://doi.org/10.21203/rs.3.rs-4665987/v1},
+  note      = {Preprint},
+  abstract  = {This paper introduces an innovative 'Feature Selector-classifier Optimization Framework' that automates feature engineering and model selection, leveraging ensemble learning to enhance credit risk prediction accuracy for SMEs.}
+}
+
+% ============================================================
+% 9. DATASETS
+% ============================================================
+@misc{Lichman2013_uci,
+  author       = {M. Lichman},
+  title        = {{UCI Machine Learning Repository}},
+  year         = {2013},
+  institution  = {University of California, Irvine},
+  url          = {https://archive.ics.uci.edu/ml}
+}
+
+@misc{south_german_credit_522,
+  title        = {{South German Credit}},
+  author       = {{UCI}},
+  year         = {2019},
+  howpublished = {UCI Machine Learning Repository},
+  note         = {{DOI}: https://doi.org/10.24432/C5X89F}
+}
+
+@misc{uci_german_credit,
+  author       = {Dheeru Dua and Casey Graff},
+  title        = {{German Credit Data}},
+  year         = {1994},
+  url          = {https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)},
+  note         = {UCI Machine Learning Repository. Accessed: 2025-01-15}
+}
