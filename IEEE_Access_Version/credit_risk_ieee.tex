@@ -18,15 +18,7 @@
 %  arrows.meta,
 %  calc
 %}
-%\usepackage{pgfplots}
-%\pgfplotsset{
-%  compat=1.18,
-%  every axis/.append style={
-%    cycle list name=black white
-%  }
-%}
-%\usepgfplotslibrary{statistics}
-%
+
 %% Define colors for architecture diagram
 %\definecolor{layer1bg}{RGB}{240,248,255}
 %\definecolor{layer1border}{RGB}{70,130,180}
@@ -73,17 +65,18 @@
 
 \title{Beyond Attribution: A Falsifiability Framework for Reliable Credit Risk Explanations}
 
-\author{\uppercase{Anonymous Author}\authorrefmark{1}}
+\author{\uppercase{Ravi Kumar Jain}\authorrefmark{1},
+and \uppercase{Anju Goswami}\authorrefmark{1}}
 
-\address[1]{Institution Name, City, State ZIP Country (e-mail: author@email.com)}
+\address[1]{Indian Institute of Foreign Trade (IIFT), Delhi, India (e-mail: ravi\_phdm23@iift.edu, anju@iift.edu)}
 
 \tfootnote{This work was submitted for review to IEEE Access.}
 
 \markboth
-{Author \headeretal: Beyond Attribution: A Falsifiability Framework for Reliable Credit Risk Explanations}
-{Author \headeretal: Beyond Attribution: A Falsifiability Framework for Reliable Credit Risk Explanations}
+{Jain and Goswami: Beyond Attribution: A Falsifiability Framework for Reliable Credit Risk Explanations}
+{Jain and Goswami: Beyond Attribution: A Falsifiability Framework for Reliable Credit Risk Explanations}
 
-\corresp{Corresponding author: Anonymous Author (e-mail: author@email.com).}
+\corresp{Corresponding authors: Ravi Kumar Jain (e-mail: ravi\_phdm23@iift.edu); Anju Goswami (e-mail: anju@iift.edu).}
 
 
 % ABSTRACT
@@ -267,23 +260,6 @@ Narrative grounded in validated SHAP evidence; no unsupported claims; suppressed
 \end{tabular}
 \end{table}
 
-\subsection{Canonical Model Instantiation and Selection Rationale}
-Rather than evaluate all hyperparameter configurations exhaustively, a single canonical instantiation is selected per family based on theoretical and structural principles. This approach ensures that comparative assessment reflects genuine algorithmic differences rather than configuration-specific tuning effects. The following canonical instantiations represent each family's core architectural principle.
-
-\emph{Linear Models} are instantiated through two complementary variants. Unregularised logistic regression with the newton-cg solver provides the classical statistical baseline, eschewing explicit complexity penalties to preserve the foundational logistic model. Regularised logistic regression with L1-penalty via liblinear represents the modern variant that intrinsically enforces sparsity, automatically excluding irrelevant features through the penalty mechanism.
-
-\emph{Boosting} is represented by AdaBoost with decision stumps (ensemble size 30). This instantiation embodies the original boosting principle grounded in iterative error correction. The shallow base learner (one-level decision tree) ensures theoretical clarity and computational transparency, avoiding the confounding effects of deeper trees or more complex base learners.
-
-\emph{Bagging (CART)} employs bagged decision trees with ensemble size 500, instantiating classical bootstrap aggregation without feature subsampling. This configuration establishes the baseline ensemble principle, serving as a reference point for understanding the effects of feature subsampling introduced in Random Forest variants.
-
-\emph{Bagging (Neural Network)} extends the bagging principle to flexible nonlinear function approximators. Bagged neural networks with ensemble size 100 represent the intersection of modern deep-learning architectures with classical ensemble methodology, demonstrating how bagging performs when applied to highly flexible learners rather than tree-based models.
-
-\emph{Random Forest} instantiation employs $\sqrt{p}$ feature subsampling (ensemble size 500), representing a specialised variant that introduces controlled feature randomness. This configuration represents a key theoretical contribution to ensemble learning, trading reduced per-tree correlation for improvements in generalisation through feature decorrelation.
-
-\emph{Stochastic Gradient Boosting} (ensemble size 50, learning rate 0.1) instantiates the gradient-boosting principle with conservative operational parameters. The modest ensemble scale and conservative learning rate reflect a balanced approach that prioritises approximation quality and generalisation stability over aggressive boosting.
-
-\emph{Instance-Based} methods are represented by k-NN with $k=11$ and uniform distance weighting. This neighbourhood size balances local responsiveness (small $k$ overfit to individual observations) against global smoothing (large $k$ ignore local structure), establishing the non-parametric neighbourhood principle at an intermediate operational point.
-
 \subsection{Explainability and Evaluation Architecture}
 The framework extends beyond predictive benchmarking by embedding explanation reliability assessment directly into the evaluation pipeline as a testable, rejectable component. Rather than treating feature attributions as self-validating artefacts, explanations are interpreted as empirical claims whose credibility depends on the empirically measured stability and strength of the underlying signal. This operationalizes falsifiability: explanations are not suppressed as failures but are explicitly subjected to signal-quality tests, with rejection conditions specified in advance (sanity ratio thresholds, noise discrimination criteria). Explanations that pass validation are accompanied by confidence metrics; those that fail validation are routed to the generative module with uncertainty caveats, creating a transparent audit trail of explanatory confidence.
 
@@ -304,8 +280,8 @@ The three-layer architecture shown in Fig.~\ref{fig:architecture} is a \emph{non
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=0.9\textwidth]{architecture_diagram.png}
-\caption{Conceptual Architecture: Task Decomposition and Information Constraints. This figure depicts the three foundational layers that define permissible transformations and information dependencies, independent of execution order or selection criteria. Layer 1 (Stabilization) establishes that feature importance must integrate multiple signal sources before model training. Layer 2 (Evolution) establishes that model selection occurs within a constrained family-based comparative framework. Layer 3 (Validation) establishes that explanations remain subject to signal-quality constraints and may be suppressed if diagnostics indicate unreliable attribution. The figure is non-procedural: it specifies \emph{what tasks must occur and how information is constrained}, not the sequence, decision thresholds, or failure modes that govern their instantiation. The concrete instantiation is specified in Algorithm~\ref{algo:full_pipeline}.}
+\includegraphics[width=0.75\textwidth]{architecture_diagram_tikz.pdf}
+\caption{Conceptual Architecture: Task Decomposition and Information Constraints.}
 \label{fig:architecture}
 \end{figure*}
 
@@ -535,9 +511,15 @@ More broadly, the framework demonstrates how predictive modelling, attribution r
 \bibliography{references}
 
 % AUTHOR BIOGRAPHIES
-\begin{IEEEbiographynophoto}{Anonymous Author}
-Biography will be added upon acceptance.
-\end{IEEEbiographynophoto}
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{C:/Users/Arnav/OneDrive/Desktop/Publishing/IEEE Access paper/Author details/RKJ.png}}]{Ravi Kumar Jain}
+is a Research Scholar at the Indian Institute of Foreign Trade (IIFT), Delhi, India. His research interests include Credit Risk Modeling, Artificial Intelligence in Finance, Explainable AI, and Machine Learning Governance.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{Anju_maam.jpg}}]{Dr. Anju Goswami}
+received the doctoral degree in Finance and Decision Sciences from the Indian Institute of Foreign Trade (IIFT), New Delhi, India, where she is currently a faculty member. Her academic and research work focuses on Financial Risk Management, Credit Risk Assessment, and the application of Data-Driven and Artificial Intelligence–Based methods in Banking and Financial Systems.
+
+She has been involved in postgraduate teaching and research in Finance and Analytics and has contributed to peer-reviewed journal publications and academic conferences. Her current research interests include Credit Risk Modeling, Machine Learning Applications in Finance, Regulatory Risk Frameworks, and Decision Support Systems for Financial Institutions.
+\end{IEEEbiography}
 
 \EOD
 
