@@ -1,0 +1,38 @@
+# LaTeX Build Artifacts (temporary files)
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fdb_latexmk
+*.fls
+*.dpth
+*.md5
+*.auxlock
+*.dvi
+*.ps
+
+# Editor Temporary Files
+*.synctex(busy)
+*.synctex.gz
+*.synctex
+*~
+*.swp
+*.swo
+.DS_Store
+
+# System Files
+Thumbs.db
+.vscode/
+.idea/
+
+# OS-specific
+.DS_Store
+*.tmp
+
+# Do NOT ignore image files - they are essential for the document
+# Do NOT ignore font files - they are essential for LaTeX compilation
+# Do NOT ignore configuration files (.sty, .cls)
